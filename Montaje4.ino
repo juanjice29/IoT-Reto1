@@ -34,7 +34,7 @@ const char MQTT_PUB_TOPIC2[] = "temperatura/bogota/" HOSTNAME;
 //Topico al que se envian los datos de la luminosidad
 const char MQTT_PUB_TOPIC3[] = "luminosidad/bogota/" HOSTNAME;
 //Definimos el pin de la fotocelda
-const int LDR_PIN = D6; 
+const int LDR_PIN = A0; 
 //////////////////////////////////////////////////////
 
 #if (defined(CHECK_PUB_KEY) and defined(CHECK_CA_ROOT)) or (defined(CHECK_PUB_KEY) and defined(CHECK_FINGERPRINT)) or (defined(CHECK_FINGERPRINT) and defined(CHECK_CA_ROOT)) or (defined(CHECK_PUB_KEY) and defined(CHECK_CA_ROOT) and defined(CHECK_FINGERPRINT))
@@ -84,7 +84,8 @@ void receivedCallback(char* topic, byte* payload, unsigned int length) {
 void setup()
 {
   //Definimos  el modo en que se va a usar el pin de la foto celda
-  pinMode(LDR_PIN, INPUT);
+  //Un pin analogico siempre sera de salida?
+  //pinMode(LDR_PIN, INPUT);
 
   Serial.begin(115200);
   Serial.println();
@@ -181,7 +182,7 @@ void loop()
   float h = dht.readHumidity();
   float t = dht.readTemperature();
   //Lee los datos de la fotocelda
-  int ldrValue = digitalRead(LDR_PIN);
+  int ldrValue = analogRead(LDR_PIN);
   //Transforma la información a la notación JSON para poder enviar los datos 
   //El mensaje que se envía es de la forma {"value": x}, donde x es el valor de temperatura o humedad
   
